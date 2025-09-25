@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Application;
 
+use Raketa\BackendTestTask\Controller\ExceptionMessagesEnum;
 use Raketa\BackendTestTask\Controller\StatusCodeEnum;
 use Raketa\BackendTestTask\Domain\Cart;
 use Raketa\BackendTestTask\Domain\CartItem;
@@ -21,9 +22,17 @@ final readonly class CartService
     public function addToCart(string $sessionId, string $productUuid, int $quantity): Cart
     {
         $product = $this->productRepository->getByUuid($productUuid)
-            ?? throw new \HttpException('product not found', StatusCodeEnum::NotFound->value);
+            ?? throw new \HttpException(
+                ExceptionMessagesEnum::ProductNotFound->value,
+                StatusCodeEnum::NotFound->value
+            );
 
-        $cart = $this->cartRepository->getCart($sessionId);
+        $cart = $this->cartRepository->getCart($sessionId)
+            ?? throw new \HttpException(
+                ExceptionMessagesEnum::CartNotFound->value,
+                StatusCodeEnum::NotFound->value
+            );
+
         $cart->items[] = new CartItem(
             Uuid::uuid4()->toString(),
             $product->getUuid(),

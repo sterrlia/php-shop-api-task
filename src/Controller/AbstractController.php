@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Controller;
 
+use Raketa\BackendTestTask\Infrastructure\Log\LogDataBag;
 use Raketa\BackendTestTask\Infrastructure\Util\JsonUtil;
 
 readonly class AbstractController
@@ -28,6 +29,9 @@ readonly class AbstractController
      */
     protected function getSessionId(): string
     {
-        return session_id() ?: throw new \HttpException('Unauthenticated', 403);
+        $sessionId = session_id() ?: throw new \HttpException(ExceptionMessagesEnum::Unauthenticated->value, 403);
+        LogDataBag::merge(['sessionId' => $sessionId]);
+
+        return $sessionId;
     }
 }

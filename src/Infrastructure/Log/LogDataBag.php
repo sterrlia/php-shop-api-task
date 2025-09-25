@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Raketa\BackendTestTask\Infrastructure\Log;
+
+final class LogDataBag
+{
+    private static array $logData = [];
+
+    /** @param array<scalar|null> data */
+    public static function merge(array $data): void
+    {
+        $this->logData = array_merge($data);
+    }
+}

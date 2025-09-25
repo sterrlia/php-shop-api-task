@@ -10,6 +10,7 @@ use Raketa\BackendTestTask\Application\CartService;
 use Raketa\BackendTestTask\Domain\Cart;
 use Raketa\BackendTestTask\Domain\CartItem;
 use Raketa\BackendTestTask\Domain\Entity\Product;
+use Raketa\BackendTestTask\Infrastructure\Log\LogDataBag;
 use Raketa\BackendTestTask\Infrastructure\Repository\ProductRepository;
 use Raketa\BackendTestTask\Infrastructure\Util\JsonUtil;
 
@@ -39,7 +40,10 @@ final readonly class CartController extends AbstractController
     public function getCart(): ResponseInterface
     {
         $cart = $this->cartService->getCart($this->getSessionId())
-            ?? throw new \HttpException('Cart not found', StatusCodeEnum::NotFound->value);;
+            ?? throw new \HttpException(
+                ExceptionMessagesEnum::CartNotFound->value,
+                StatusCodeEnum::NotFound->value
+            );
 
         return $this->json($this->getCartView($cart));
     }
@@ -82,6 +86,12 @@ final readonly class CartController extends AbstractController
         foreach ($cart->items as $item) {
             $total += $item->price * $item->quantity;
 
+            LogDataBag::merge(
+                [
+                    'itemUuid' => $item->uuid,
+                    'outputProductUuid' => $item->productUuid,
+                ]
+            );
             $product = $indexedProducts[$item->productUuid]
                 ?? throw new \RuntimeException("Product #{$item->productUuid} not found");
 
