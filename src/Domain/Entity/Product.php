@@ -2,14 +2,17 @@
 
 declare(strict_types = 1);
 
-namespace Raketa\BackendTestTask\Repository\Entity;
+namespace Raketa\BackendTestTask\Domain\Entity;
 
-readonly class Product
+// :TODO: убрать final если используется doctrine orm
+final readonly class Product
 {
     public function __construct(
+        // :TODO: можно оставить id или uuid если doctrine не будет использоваться, лучше id т.к. он лучше индексируется
         private int $id,
         private string $uuid,
         private bool $isActive,
+        // :TODO: заменить на enum
         private string $category,
         private string $name,
         private string $description,
