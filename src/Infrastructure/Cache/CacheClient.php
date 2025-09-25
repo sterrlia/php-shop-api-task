@@ -24,7 +24,7 @@ final readonly class CacheClient
             $result = $this->redis->get($key) ?: null;
             return $result;
         } catch (\RedisException $e) {
-            throw new CacheClientException('Get failure', previous: $e);
+            throw new CacheClientException("Get failure for $key", previous: $e);
         }
     }
 
@@ -60,9 +60,9 @@ final readonly class CacheClient
     {
         try {
             $this->redis->setex($key, $ttl, $value)
-               ?: throw new CacheClientException('Set failure');
+               ?: throw new CacheClientException("Set failure for $key");
         } catch (\RedisException $e) {
-            throw new CacheClientException('Set error', previous: $e);
+            throw new CacheClientException("Set error for $key", previous: $e);
         }
     }
 
