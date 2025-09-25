@@ -11,5 +11,6 @@ final readonly class CartItem
         public string $productUuid,
         public float $price,
         public int $quantity
-    ) {}
+    ) {
+    }
 }

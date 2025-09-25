@@ -11,7 +11,8 @@ final readonly class CartRepository
 {
     public function __construct(
         private CacheClient $cacheClient
-    ) {}
+    ) {
+    }
 
     public function saveCart(string $sessionId, Cart $cart): void
     {

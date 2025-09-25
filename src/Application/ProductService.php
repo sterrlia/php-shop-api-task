@@ -11,7 +11,8 @@ final readonly class ProductService
 {
     public function __construct(
         private ProductRepository $productRepository,
-    ) {}
+    ) {
+    }
 
     /** @return Product[] */
     public function getProducts(string $category): array

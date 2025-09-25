@@ -12,7 +12,8 @@ final readonly class ProductRepository
 {
     public function __construct(
         private Connection $connection
-    ) {}
+    ) {
+    }
 
     public function getByUuid(string $uuid): ?Product
     {

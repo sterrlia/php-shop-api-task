@@ -12,7 +12,8 @@ final readonly class CacheClient
 {
     public function __construct(
         private \Redis $redis
-    ) {}
+    ) {
+    }
 
     /**
      * @throws CacheClientException

@@ -6,8 +6,8 @@ namespace Raketa\BackendTestTask\Infrastructure\Log;
 
 final class LogDataBag
 {
-    /** 
-     * @var mixed[] $logData 
+    /**
+     * @var mixed[] $logData
     */
     private static array $logData = [];
 

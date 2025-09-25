@@ -14,7 +14,8 @@ final readonly class ProductController extends AbstractController
 {
     public function __construct(
         private ProductService $productService
-    ) {}
+    ) {
+    }
 
     public function get(RequestInterface $request): ResponseInterface
     {

@@ -14,7 +14,8 @@ final readonly class CacheClientFactory
         private int $port = 6379,
         private ?string $password = null,
         private ?int $dbindex = null
-    ) {}
+    ) {
+    }
 
     private function build(): CacheClient
     {
@@ -35,12 +36,12 @@ final readonly class CacheClientFactory
         }
 
         if ($this->password !== null) {
-            $redis->auth($this->password) 
+            $redis->auth($this->password)
                 ?: throw new \RuntimeException('Failed to set auth for redis');
         }
 
         if ($this->dbindex !== null) {
-            $redis->select($this->dbindex) 
+            $redis->select($this->dbindex)
                 ?: throw new \RuntimeException('Failed to select database');
         }
 

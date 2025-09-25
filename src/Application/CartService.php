@@ -16,7 +16,8 @@ final readonly class CartService
     public function __construct(
         private CartRepository $cartRepository,
         private ProductRepository $productRepository
-    ) {}
+    ) {
+    }
 
     public function addToCart(string $sessionId, string $productUuid, int $quantity): Cart
     {

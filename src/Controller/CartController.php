@@ -19,7 +19,8 @@ final readonly class CartController extends AbstractController
     public function __construct(
         private CartService $cartService,
         private ProductRepository $productRepository
-    ) {}
+    ) {
+    }
 
     public function addToCart(RequestInterface $request): ResponseInterface
     {

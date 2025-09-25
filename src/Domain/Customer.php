@@ -12,5 +12,6 @@ final readonly class Customer
         public string $lastName,
         public string $middleName,
         public string $email,
-    ) {}
+    ) {
+    }
 }
