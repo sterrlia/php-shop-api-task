@@ -20,7 +20,9 @@ final readonly class CacheClient
     public function getScalar(string $key): null|float|int|string|bool
     {
         try {
-            return $this->redis->get($key) ?: null;
+            /** @var null|float|int|string|bool $result */
+            $result = $this->redis->get($key) ?: null;
+            return $result;
         } catch (\RedisException $e) {
             throw new CacheClientException('Get failure', previous: $e);
         }

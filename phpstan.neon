@@ -7,7 +7,6 @@ parameters:
         analyse:
             - src/Controller/JsonResponse.php
 
-
     ignoreErrors:
         -
             message: '#is unused#'

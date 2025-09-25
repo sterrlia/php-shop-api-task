@@ -22,7 +22,9 @@ final readonly class ProductController extends AbstractController
         // :TODO: можно использовать symfony validator
         // :TODO: можно реализовать symfony ValueResolver
         $rawRequest = JsonUtil::decode($requestContent);
-        $products = $this->productService->getProducts($rawRequest['category']);
+        /** @var string $category */
+        $category = $rawRequest['category'];
+        $products = $this->productService->getProducts($category);
 
         $productsView = array_map(
             fn (Product $product) => [

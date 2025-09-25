@@ -21,7 +21,10 @@ class JsonUtil
      */
     public static function decode(string $data): array
     {
-        return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        /** @var mixed[] $decoded */
+        $decoded = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+
+        return $decoded;
     }
 }
 

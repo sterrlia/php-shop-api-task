@@ -6,6 +6,7 @@ namespace Raketa\BackendTestTask\Infrastructure\Repository;
 
 use Doctrine\DBAL\Connection;
 use Raketa\BackendTestTask\Domain\Entity\Product;
+use Raketa\BackendTestTask\Infrastructure\Util\ReflectionUtil;
 
 final readonly class ProductRepository
 {
@@ -15,12 +16,13 @@ final readonly class ProductRepository
 
     public function getByUuid(string $uuid): ?Product
     {
+        /** @var mixed[] $row */
         $row = $this->connection->fetchOne(
             'SELECT * FROM products WHERE uuid = :uuid',
             [
                 'uuid' => $uuid,
             ]
-        );
+        ) ?: [];
 
         if (empty($row)) {
             return null;
@@ -32,7 +34,7 @@ final readonly class ProductRepository
     /** @return Product[] */
     public function fetchByUuids(string ...$uuid): array
     {
-        $rows = $this->connection->fetchOne(
+        $rows = $this->connection->fetchAllAssociative(
             'SELECT * FROM products WHERE uuid in (:uuid)',
             [
                 'uuids' => $uuid,
@@ -66,15 +68,8 @@ final readonly class ProductRepository
     /** @param mixed[] $row */
     public function make(array $row): Product
     {
-        return new Product(
-            $row['id'],
-            $row['uuid'],
-            $row['is_active'],
-            $row['category'],
-            $row['name'],
-            $row['description'],
-            $row['thumbnail'],
-            $row['price'],
-        );
+        $row['isActive'] = (bool) $row['is_active'];
+
+        return ReflectionUtil::mapArrayToClassRecursive($row, Product::class);
     }
 }

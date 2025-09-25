@@ -27,11 +27,15 @@ final readonly class CartController extends AbstractController
         // :TODO: можно использовать symfony validator
         // :TODO: можно реализовать symfony ValueResolver
         $rawRequest = JsonUtil::decode($requestContent);
+        /** @var string $productUuid */
+        $productUuid = $rawRequest['productUuid'];
+        /** @var int $quantity */
+        $quantity = $rawRequest['quantity'];
 
         $modifiedCart = $this->cartService->addToCart(
             $this->getSessionId(),
-            $rawRequest['productUuid'],
-            $rawRequest['quantity']
+            $productUuid,
+            $quantity
         );
 
         return $this->json($this->getCartView($modifiedCart));
