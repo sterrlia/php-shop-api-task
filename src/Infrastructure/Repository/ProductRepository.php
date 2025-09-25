@@ -40,7 +40,7 @@ final readonly class ProductRepository
         );
 
         return array_map(
-            static fn (array $row) => $this->make($row),
+            fn (array $row) => $this->make($row),
             $rows
         );
     }
@@ -57,7 +57,7 @@ final readonly class ProductRepository
         );
 
         return array_map(
-            static fn (array $row) => $this->make($row),
+            fn (array $row) => $this->make($row),
             $rows
         );
     }

@@ -40,10 +40,7 @@ final readonly class CartController extends AbstractController
     public function getCart(): ResponseInterface
     {
         $cart = $this->cartService->getCart($this->getSessionId())
-            ?? throw new \HttpException(
-                ExceptionMessagesEnum::CartNotFound->value,
-                StatusCodeEnum::NotFound->value
-            );
+            ?? throw ExceptionMessagesEnum::CartNotFound->exception();
 
         return $this->json($this->getCartView($cart));
     }

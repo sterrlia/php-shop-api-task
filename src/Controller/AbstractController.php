@@ -10,9 +10,8 @@ use Raketa\BackendTestTask\Infrastructure\Util\JsonUtil;
 readonly class AbstractController
 {
     // если не используем symfony
-    // :TODO: можно реализовать enum для статус или проверять через phpstan
-    // @param mixed $data
-    protected function json(array|object $data, StatusCodeEnum $status = StatusCodeEnum::Ok): JsonResponse
+    /** @param mixed $data */
+    protected function json(array|object $data): JsonResponse
     {
         $content = JsonUtil::encode($data);
         $response = new JsonResponse();
@@ -20,7 +19,7 @@ readonly class AbstractController
 
         return $response
             ->withHeader('Content-Type', 'application/json; charset=utf-8')
-            ->withStatus($status->value)
+            ->withStatus(200)
         ;
     }
 
@@ -29,7 +28,7 @@ readonly class AbstractController
      */
     protected function getSessionId(): string
     {
-        $sessionId = session_id() ?: throw new \HttpException(ExceptionMessagesEnum::Unauthenticated->value, 403);
+        $sessionId = session_id() ?: throw ExceptionMessagesEnum::Unauthenticated->exception();
         LogDataBag::merge(['sessionId' => $sessionId]);
 
         return $sessionId;

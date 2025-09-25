@@ -8,9 +8,9 @@ final class LogDataBag
 {
     private static array $logData = [];
 
-    /** @param array<scalar|null> data */
+    /** @param array<scalar|null> $data */
     public static function merge(array $data): void
     {
-        $this->logData = array_merge($data);
+        self::$logData = array_merge($data);
     }
 }
