@@ -7,7 +7,7 @@ namespace Raketa\BackendTestTask\Infrastructure\Util;
 final readonly class ReflectionUtil
 {
     /**
-     * @template T
+     * @template T of object
      * @param array<mixed> $data
      * @param class-string<T> $className
      * @return T
@@ -23,9 +23,14 @@ final readonly class ReflectionUtil
                 $prop->setAccessible(true);
 
                 if (is_array($value)) {
-                    $type = $prop->getType()?->getName();
-                    if ($type && class_exists($type)) {
-                        $value = self::mapArrayToClassRecursive($value, $type);
+                    $type = $prop->getType();
+                    $typeName = null;
+                    if ($type instanceof \ReflectionNamedType) {
+                        $typeName = $type->getName();
+                    }
+
+                    if ($typeName && class_exists($typeName)) {
+                        $value = self::mapArrayToClassRecursive($value, $typeName);
                     }
                 }
 

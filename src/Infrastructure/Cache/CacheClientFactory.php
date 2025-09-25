@@ -34,8 +34,15 @@ final readonly class CacheClientFactory
                 ?: throw new \RuntimeException('Failed to connect to redis');
         }
 
-        $redis->auth($this->password) ?: throw new \RuntimeException('Failed to set auth for redis');
-        $redis->select($this->dbindex) ?: throw new \RuntimeException('Failed to select database');
+        if ($this->password !== null) {
+            $redis->auth($this->password) 
+                ?: throw new \RuntimeException('Failed to set auth for redis');
+        }
+
+        if ($this->dbindex !== null) {
+            $redis->select($this->dbindex) 
+                ?: throw new \RuntimeException('Failed to select database');
+        }
 
         return new CacheClient($redis);
     }

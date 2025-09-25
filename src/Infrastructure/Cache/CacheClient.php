@@ -17,7 +17,7 @@ final readonly class CacheClient
     /**
      * @throws CacheClientException
      */
-    public function getScalar(string $key): null|float|int|string
+    public function getScalar(string $key): null|float|int|string|bool
     {
         try {
             return $this->redis->get($key) ?: null;
@@ -27,7 +27,7 @@ final readonly class CacheClient
     }
 
     /**
-     * @template T
+     * @template T of object
      * @param class-string<T> $class
      * @return T|null
      */
@@ -52,11 +52,9 @@ final readonly class CacheClient
     }
 
     /**
-     * @param null|scalar $value
-     *
      * @throws CacheClientException
      */
-    public function setScalar(string $key, null|float|int|string $value, int $ttl = 24 * 60 * 60): void
+    public function setScalar(string $key, null|float|int|string|bool $value, int $ttl = 24 * 60 * 60): void
     {
         try {
             $this->redis->setex($key, $ttl, $value)

@@ -10,7 +10,7 @@ use Raketa\BackendTestTask\Infrastructure\Util\JsonUtil;
 readonly class AbstractController
 {
     // если не используем symfony
-    /** @param mixed $data */
+    /** @param mixed[]|object $data */
     protected function json(array|object $data): JsonResponse
     {
         $content = JsonUtil::encode($data);

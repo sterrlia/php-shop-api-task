@@ -1,0 +1,20 @@
+parameters:
+    level: 8
+    paths:
+        - src
+
+    excludePaths:
+        analyse:
+            - src/Controller/JsonResponse.php
+
+
+    ignoreErrors:
+        -
+            message: '#is unused#'
+            paths:
+                - src
+
+        -
+            message: '#is never read#'
+            paths:
+                - src
